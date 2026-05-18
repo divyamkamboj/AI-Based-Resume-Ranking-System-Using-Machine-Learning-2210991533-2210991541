@@ -1,59 +1,85 @@
-
 import os
 import pandas as pd
+from datetime import datetime
 
 from utils.pdf_to_text import extract_resume_text
 from utils.preprocess import preprocess_text
 from utils.ranking import rank_resumes
 
 
+RESUME_FOLDER = "data/resumes"
+
+JOB_DESCRIPTION_FILE = "data/job_description.txt"
+
+OUTPUT_FOLDER = "outputs"
+
+OUTPUT_FILE = "outputs/ranked_candidates.csv"
 
 
-def load_job_description(file_path):
-
-    try:
-
-        with open(file_path, "r", encoding="utf-8") as file:
-
-            job_description = file.read()
-
-        return job_description
-
-    except FileNotFoundError:
-
-        print("Error: Job description file not found")
-
-        return ""
-
-
-def create_output_directory():
+# Output
+def create_output_folder():
 
     if not os.path.exists(OUTPUT_FOLDER):
 
         os.makedirs(OUTPUT_FOLDER)
 
+        print("Output folder created")
 
-def load_resumes():
+    else:
+
+        print("Output folder already exists")
+
+
+# Job
+def load_job_description(file_path):
+
+    try:
+
+        with open(
+            file_path,
+            "r",
+            encoding="utf-8"
+        ) as file:
+
+            job_description = file.read()
+
+        print("Job description loaded")
+
+        return job_description
+
+    except FileNotFoundError:
+
+        print("Job description file not found")
+
+        return ""
+
+
+# Resume
+def process_resumes():
 
     resumes = []
 
     resume_names = []
 
-    print("\nLoading resumes from folder...")
+    total_resumes = 0
+
+    print("\nProcessing resumes...\n")
 
     for file in os.listdir(RESUME_FOLDER):
 
         if file.endswith(".pdf"):
 
-            resume_path = os.path.join(
+            total_resumes += 1
+
+            file_path = os.path.join(
                 RESUME_FOLDER,
                 file
             )
 
-            print(f"Processing Resume: {file}")
+            print(f"Reading Resume: {file}")
 
             extracted_text = extract_resume_text(
-                resume_path
+                file_path
             )
 
             processed_text = preprocess_text(
@@ -64,34 +90,57 @@ def load_resumes():
 
             resume_names.append(file)
 
-    print("\nTotal Resumes Processed:", len(resumes))
+    print("\nTotal Resumes:", total_resumes)
 
     return resumes, resume_names
 
 
-def save_results(result_df):
+# Save
+def save_results(result_dataframe):
 
-    result_df.to_csv(
+    result_dataframe.to_csv(
         OUTPUT_FILE,
         index=False
     )
 
-    print("\nResults saved successfully!")
+    print("\nResults exported")
 
-    print(f"Output File: {OUTPUT_FILE}")
+    print("Output:", OUTPUT_FILE)
 
 
-if __name__ == "__main__":
+# Display
+def display_results(result_dataframe):
+
+    print("\n")
 
     print("=" * 60)
 
-    print("AI Resume Screening and Ranking System")
+    print("FINAL CANDIDATE RANKING")
 
     print("=" * 60)
 
-    create_output_directory()
+    print(result_dataframe)
 
-    resumes, resume_names = load_resumes()
+    print("=" * 60)
+
+
+# Main
+def main():
+
+    print("\n")
+
+    print("=" * 60)
+
+    print("AI Resume Screening System")
+
+    print("=" * 60)
+
+    print("Execution Time:",
+          datetime.now())
+
+    create_output_folder()
+
+    resumes, resume_names = process_resumes()
 
     job_description = load_job_description(
         JOB_DESCRIPTION_FILE
@@ -107,7 +156,7 @@ if __name__ == "__main__":
         processed_job_description
     )
 
-    result_df = pd.DataFrame(
+    result_dataframe = pd.DataFrame(
         ranked_results,
         columns=[
             "Resume Name",
@@ -115,14 +164,14 @@ if __name__ == "__main__":
         ]
     )
 
-    print("\nFinal Candidate Ranking")
+    display_results(result_dataframe)
 
-    print("-" * 60)
+    save_results(result_dataframe)
 
-    print(result_df)
+    print("\nSystem Executed Successfully")
 
-    print("-" * 60)
 
-    save_results(result_df)
+# Driver
+if __name__ == "__main__":
 
-    print("\nSystem Execution Completed Successfully")
+    main()
