@@ -8,11 +8,6 @@ from utils.ranking import rank_resumes
 
 
 
-RESUME_FOLDER = "data/resumes"
-JOB_DESCRIPTION_FILE = "data/job_description.txt"
-OUTPUT_FOLDER = "outputs"
-OUTPUT_FILE = "outputs/ranked_candidates.csv"
-
 
 def load_job_description(file_path):
 
