@@ -1,0 +1,4 @@
+Rank,Resume Name,Similarity Score,Match Percentage,Recommendation
+1,candidate_1.pdf,0.89,89.0,Strong Match
+2,candidate_2.pdf,0.76,76.0,Moderate Match
+3,candidate_3.pdf,0.61,61.0,Moderate Match
