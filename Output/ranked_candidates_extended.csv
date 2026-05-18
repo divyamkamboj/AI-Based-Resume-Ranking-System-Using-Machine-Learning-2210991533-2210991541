@@ -1,9 +1,0 @@
-Rank,Resume Name,Similarity Score,Match Percentage,Recommendation
-1,candidate_1.pdf,0.92,92.0,Strong Match
-2,candidate_2.pdf,0.88,88.0,Strong Match
-3,candidate_3.pdf,0.84,84.0,Strong Match
-4,candidate_4.pdf,0.79,79.0,Moderate Match
-5,candidate_5.pdf,0.73,73.0,Moderate Match
-6,candidate_6.pdf,0.68,68.0,Moderate Match
-7,candidate_7.pdf,0.61,61.0,Moderate Match
-8,candidate_8.pdf,0.55,55.0,Low Match
