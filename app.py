@@ -7,9 +7,6 @@ from utils.preprocess import preprocess_text
 from utils.ranking import rank_resumes
 
 
-# =====================================================
-# AI Resume Screening and Candidate Ranking System
-# =====================================================
 
 RESUME_FOLDER = "data/resumes"
 JOB_DESCRIPTION_FILE = "data/job_description.txt"
